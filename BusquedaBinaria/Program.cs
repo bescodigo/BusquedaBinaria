@@ -6,7 +6,7 @@ namespace BusquedaBinaria
     {
 
         static int MarcadorMedio;
-        static int valorBuscado = 86;
+        static int valorBuscado = -1;
         static bool encontrado = false;
         
 
@@ -28,57 +28,69 @@ namespace BusquedaBinaria
 
             while (encontrado == false)
             {
-                
-                if (arregloP[MarcadorMedio] == ValorBuscado)
+                try
                 {
-                    encontrado = true;
-                   
-                }
-                //  El valor buscado se encuentra en un indice mayor al marcadorMedio??.
-                else if (arregloP[MarcadorMedio] < ValorBuscado)
-                {
-                    
-                    if(arregloP[Marcador2] == ValorBuscado)
+
+                    if (arregloP[MarcadorMedio] == ValorBuscado)
                     {
-                        MarcadorMedio = Marcador2;
                         encontrado = true;
-                    }
-                    else // Si el valor buscado no se encuentra en el marcador2 
-                    {   //  entonces bajamos una posición.
-                    
-                        Marcador2--;
 
-                        //  Y llevamos a marcador1 a la posición del marcadormedio mas uno.
-                        Marcador1 = ++MarcadorMedio;
-                        MarcadorMedio = (Marcador1 + Marcador2) / 2;
                     }
-
-                }
-                //  El valor buscado se encuentra en un indice menor al marcadorMedio??.
-                else if (arregloP[MarcadorMedio] > ValorBuscado)
-                {
-                    if (arregloP[Marcador1]==ValorBuscado)
+                    //  El valor buscado se encuentra en un indice mayor al marcadorMedio??.
+                    else if (arregloP[MarcadorMedio] < ValorBuscado)
                     {
-                        MarcadorMedio = Marcador1;
-                        encontrado = true;
+
+                        if (arregloP[Marcador2] == ValorBuscado)
+                        {
+                            MarcadorMedio = Marcador2;
+                            encontrado = true;
+                        }
+                        else // Si el valor buscado no se encuentra en el marcador2 
+                        {   //  entonces bajamos una posición.
+
+                            Marcador2--;
+
+                            //  Y llevamos a marcador1 a la posición del marcadormedio mas uno.
+                            Marcador1 = ++MarcadorMedio;
+                            MarcadorMedio = Marcador1 + (Marcador2 - Marcador1) / 2;
+                        }
+
                     }
-                    else // Si el valor buscado no se encuentra en el marcador1
-                    {   //  entonces subimos una posición.
-                    
-                        Marcador1++;
-                        //  Y llevamos a marcador2 a la posición del marcadormedio menos uno.
-                        Marcador2 = --MarcadorMedio;
-                        MarcadorMedio = (Marcador2 - Marcador1) / 2;
+                    //  El valor buscado se encuentra en un indice menor al marcadorMedio??.
+                    else if (arregloP[MarcadorMedio] > ValorBuscado)
+                    {
+                        if (arregloP[Marcador1] == ValorBuscado)
+                        {
+                            MarcadorMedio = Marcador1;
+                            encontrado = true;
+                        }
+                        else // Si el valor buscado no se encuentra en el marcador1
+                        {   //  entonces subimos una posición.
+
+                            Marcador1++;
+                            //  Y llevamos a marcador2 a la posición del marcadormedio menos uno.
+                            Marcador2 = --MarcadorMedio;
+                            MarcadorMedio = Marcador1 + (Marcador2 - Marcador1) / 2;
+                        }
+
                     }
 
+
+                }catch(IndexOutOfRangeException ex)
+                {
+                    Console.WriteLine("El valor buscado: " + valorBuscado + " no se encuentra en el arreglo. \nError: " + ex );
+                    break;
                 }
 
                 Console.WriteLine("Cantidad de iteraciones: "+ ++contador);
             }
 
-            Console.WriteLine("El valor buscado es: " + ValorBuscado 
-                + "\n y se encuentra en el index: " + MarcadorMedio 
-                +". valor: "+ arregloP[MarcadorMedio]);
+            if (encontrado == true)
+            {
+                Console.WriteLine("El valor buscado es: " + ValorBuscado
+                    + "\n y se encuentra en el index: " + MarcadorMedio
+                    + ". valor: " + arregloP[MarcadorMedio]);
+            }
         }
     }
 }
